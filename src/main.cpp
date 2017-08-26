@@ -22,6 +22,21 @@ void testOp() {
     cout << "ConstantOp forward: " << constantOp->forward() << endl;
     cout << "ConstantOp backword: " << constantOp->backward() << endl;
 
+    // Test PlaceholderOp
+    PlaceholderOp* placeholderOp = new PlaceholderOp();
+    placeholderOp->setValue(100.1);
+
+    cout << "PlaceholderOp name: " << placeholderOp->getName() << endl;
+    cout << "PlaceholderOp forward: " << placeholderOp->forward() << endl;
+    cout << "PlaceholderOp backword: " << placeholderOp->backward() << endl;
+
+    // Test VariableOp
+    VariableOp* variableOp = new VariableOp();
+    variableOp->setValue(100.1);
+
+    cout << "VariableOp name: " << variableOp->getName() << endl;
+    cout << "VariableOp forward: " << variableOp->forward() << endl;
+    cout << "VariableOp backword: " << variableOp->backward() << endl;
 }
 
 int main() {

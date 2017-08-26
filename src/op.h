@@ -10,6 +10,9 @@ using namespace std;
 
 namespace hplearn {
 
+/*
+ * The abstract operation;
+ */
 class Op {
 protected:
     string name;
@@ -35,17 +38,48 @@ public:
     virtual double backward() = 0;
 };
 
-
+/*
+ * The constant operation;
+ */
 class ConstantOp : public Op {
 
 public:
-
     ConstantOp();
-
     ConstantOp(double value);
-
     double forward();
+    double backward();
+};
 
+/*
+ * The placeholder operation;
+ */
+class PlaceholderOp : public Op {
+public:
+    PlaceholderOp();
+    PlaceholderOp(double value);
+    double forward();
+    double backward();
+};
+
+/*
+* The variable operation;
+*/
+class VariableOp : public Op {
+public:
+    VariableOp();
+    VariableOp(double value);
+    double forward();
+    double backward();
+};
+
+/*
+* The power operation;
+*/
+class PowerOp : public Op {
+public:
+    PowerOp();
+    PowerOp(double value);
+    double forward();
     double backward();
 };
 
