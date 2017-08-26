@@ -7,6 +7,7 @@
 #include "op.h"
 
 using namespace std;
+using namespace hplearn;
 
 
 void testOp() {
@@ -24,11 +25,9 @@ void testOp() {
 }
 
 int main() {
-
-    cout<<"Hello main"<<endl;
+    cout<<"Start main"<<endl;
 
     testOp();
-
 
     return 0;
 }

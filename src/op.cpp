@@ -4,6 +4,9 @@
 
 #include "op.h"
 
+namespace hplearn{
+
+
 Op::Op() : name(""), value(0.0) {
 
 }
@@ -52,4 +55,4 @@ double ConstantOp::backward() {
 }
 
 
-
+} // namespace hplearn

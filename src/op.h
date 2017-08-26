@@ -8,6 +8,8 @@
 #include<string>
 using namespace std;
 
+namespace hplearn {
+
 class Op {
 protected:
     string name;
@@ -48,6 +50,7 @@ public:
 };
 
 
+} // namespace hplearn
 
 #endif //HPLEARN_OP_H
 
