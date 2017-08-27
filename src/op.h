@@ -35,10 +35,19 @@ protected:
 public:
     Op();
     Op(string name);
+
     string getName();
     void setName(string name);
+
     virtual double forward() = 0;
     virtual double backward(string partialDerivativeOpname="") = 0;
+
+    // TODO: Change to AddOp after resolving circular dependencies
+    Op* operator+(Op& op);
+    Op* operator-(Op& op);
+    Op* operator*(Op& op);
+    Op* operator/(Op& op);
+
 };
 
 /*
@@ -67,8 +76,10 @@ private:
 public:
     PlaceholderOp();
     PlaceholderOp(double value);
+
     double getValue();
     void setValue(double value);
+
     double forward();
     double backward(string partialDerivativeOpname="");
 };

@@ -37,6 +37,22 @@ void Op::setName(string name) {
     this->name = name;
 }
 
+Op* Op::operator+(Op& op) {
+    return new AddOp(this, &op);
+}
+
+Op* Op::operator-(Op& op) {
+    return new MinusOp(this, &op);
+}
+
+Op* Op::operator*(Op& op) {
+    return new MultipleOp(this, &op);
+}
+
+Op* Op::operator/(Op& op) {
+    return new DivideOp(this, &op);
+}
+
 // ConstantOp
 ConstantOp::ConstantOp() : Op("ConstantOp") {
 
@@ -278,7 +294,7 @@ DivideOp::DivideOp(double firstInputValue, double secondInputValue) : Op("Divide
 }
 
 double DivideOp::forward() {
-    return this->firstInputOp->forward() * this->secondInputOp->forward();
+    return this->firstInputOp->forward() / this->secondInputOp->forward();
 }
 
 double DivideOp::backward(string partialDerivativeOpname) {

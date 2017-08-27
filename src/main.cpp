@@ -189,21 +189,49 @@ void testOptimizer() {
 
 }
 
-void testLrModel() {
-    // Create graph
 
+void testOverridedOperator() {
+    // Create Graph
+    Graph* graph = new Graph();
+
+    VariableOp* variableOp1 = new VariableOp(20.2);
+    VariableOp* variableOp2 = new VariableOp(10.1);
+    AddOp* addOp = (AddOp*) (*variableOp1 + *variableOp2);
+    MinusOp* minusOp = (MinusOp*) (*variableOp1 - *variableOp2);
+    MultipleOp* multipleOp = (MultipleOp*) (*variableOp1 * *variableOp2);
+    DivideOp* divideOp = (DivideOp*) (*variableOp1 / *variableOp2);
+
+    graph->addToGraph(variableOp1);
+    graph->addToGraph(variableOp2);
+    graph->addToGraph(addOp);
+    graph->addToGraph(minusOp);
+    graph->addToGraph(multipleOp);
+    graph->addToGraph(divideOp);
+
+
+    // Create session
+    Session* session = new Session(graph);
+    cout << "Overrided + operator result is " << to_string(session->run(addOp->getName())) << endl;
+    cout << "Overrided - operator result is " << to_string(session->run(minusOp->getName())) << endl;
+    cout << "Overrided * operator result is " << to_string(session->run(multipleOp->getName())) << endl;
+    cout << "Overrided / operator result is " << to_string(session->run(divideOp->getName())) << endl;
+}
+
+
+void testLrModel() {
+    // Define train data
     double learningRate = 0.01;
+    double trainFeatures[] = {1.0, 2.0, 3.0, 4.0, 5.0};
+    double trainLabels[] = {10.0, 20.0, 30.0, 40.0, 50.0};
+
+    // Create graph
+    VariableOp* weights = new VariableOp(0.0);
+    VariableOp* bias = new VariableOp(0.0);
+    PlaceholderOp* x = new PlaceholderOp();
+    PlaceholderOp* y = new PlaceholderOp();
+
 
     /*
-    learning_rate = 0.01
-    train_features = [1.0, 2.0, 3.0, 4.0, 5.0]
-    train_labels = [10.0, 20.0, 30.0, 40.0, 50.0]
-
-    weights = tf.Variable(0.0)
-    bias = tf.Variable(0.0)
-    x = tf.placeholder(tf.float32)
-    y = tf.placeholder(tf.float32)
-
     predict = weights * x + bias
     loss = tf.square(y - predict)
     sgd_optimizer = tf.train.GradientDescentOptimizer(learning_rate)
@@ -240,6 +268,8 @@ int main(int argc,char* argv[]) {
     testPlaceholder();
 
     testOptimizer();
+
+    testOverridedOperator();
 
     testLrModel();
 
