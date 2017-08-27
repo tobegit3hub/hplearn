@@ -90,7 +90,7 @@ public:
 };
 
 /*
- * The square operation;
+ * The square operation.
  */
 class SquareOp : public PowerOp {
 public:
@@ -99,7 +99,7 @@ public:
 
 
 /*
- * The add operation;
+ * The add operation.
  */
 class AddOp : public Op {
 private:
@@ -116,7 +116,7 @@ public:
 };
 
 /*
- * The add operation;
+ * The minus operation.
  */
 class MinusOp : public Op {
 private:
@@ -131,6 +131,41 @@ public:
     double forward();
     double backward(string partialDerivativeOpname="");
 };
+
+/*
+ * The multiple operation.
+ */
+class MultipleOp : public Op {
+private:
+    Op* firstInputOp;
+    Op* secondInputOp;
+
+public:
+    MultipleOp(Op* firstInputOp, Op* secondInputOp);
+    MultipleOp(Op* firstInputOp, double secondInputValue);
+    MultipleOp(double firstInputValue, Op* secondInputOp);
+    MultipleOp(double firstInputValue, double secondInputValue);
+    double forward();
+    double backward(string partialDerivativeOpname="");
+};
+
+/*
+ * The divide operation.
+ */
+class DivideOp : public Op {
+private:
+    Op* firstInputOp;
+    Op* secondInputOp;
+
+public:
+    DivideOp(Op* firstInputOp, Op* secondInputOp);
+    DivideOp(Op* firstInputOp, double secondInputValue);
+    DivideOp(double firstInputValue, Op* secondInputOp);
+    DivideOp(double firstInputValue, double secondInputValue);
+    double forward();
+    double backward(string partialDerivativeOpname="");
+};
+
 
 
 } // namespace hplearn

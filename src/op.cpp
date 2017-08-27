@@ -202,5 +202,77 @@ double MinusOp::backward(string partialDerivativeOpname) {
     return grad;
 }
 
+// MultipleOp
+MultipleOp::MultipleOp(Op* firstInputOp, Op* secondInputOp) : Op("MultipleOp"), firstInputOp(firstInputOp), secondInputOp(secondInputOp) {
+
+}
+
+MultipleOp::MultipleOp(Op* firstInputOp, double secondInputValue) : Op("MultipleOp"), firstInputOp(firstInputOp) {
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+MultipleOp::MultipleOp(double firstInputValue, Op* secondInputOp) : Op("MultipleOp"), secondInputOp(secondInputOp) {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+}
+
+MultipleOp::MultipleOp(double firstInputValue, double secondInputValue) : Op("MultipleOp") {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+double MultipleOp::forward() {
+    return this->firstInputOp->forward() * this->secondInputOp->forward();
+}
+
+double MultipleOp::backward(string partialDerivativeOpname) {
+    double grad;
+    double firstInputOpValue = this->firstInputOp->forward();
+    double secondInputOpValue = this->secondInputOp->forward();
+    double firstInputOpGrad = this->firstInputOp->backward(partialDerivativeOpname);
+    double secondInputOpGrad = this->secondInputOp->backward(partialDerivativeOpname);
+
+    grad = firstInputOpGrad * secondInputOpValue + firstInputOpValue * secondInputOpGrad;
+    return grad;
+}
+
+// DivideOp
+DivideOp::DivideOp(Op* firstInputOp, Op* secondInputOp) : Op("DivideOp"), firstInputOp(firstInputOp), secondInputOp(secondInputOp) {
+
+}
+
+DivideOp::DivideOp(Op* firstInputOp, double secondInputValue) : Op("DivideOp"), firstInputOp(firstInputOp) {
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+DivideOp::DivideOp(double firstInputValue, Op* secondInputOp) : Op("DivideOp"), secondInputOp(secondInputOp) {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+}
+
+DivideOp::DivideOp(double firstInputValue, double secondInputValue) : Op("DivideOp") {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+double DivideOp::forward() {
+    return this->firstInputOp->forward() * this->secondInputOp->forward();
+}
+
+double DivideOp::backward(string partialDerivativeOpname) {
+    double grad;
+    double firstInputOpValue = this->firstInputOp->forward();
+    double secondInputOpValue = this->secondInputOp->forward();
+    double firstInputOpGrad = this->firstInputOp->backward(partialDerivativeOpname);
+    double secondInputOpGrad = this->secondInputOp->backward(partialDerivativeOpname);
+
+    if (secondInputOpGrad == 0) {
+        // TODO: Throw exception because of no reasonable grad
+        grad = 0;
+    } else {
+        grad = firstInputOpGrad * secondInputOpValue - firstInputOpValue * secondInputOpGrad;
+        grad = grad / pow(secondInputOpValue, 2);
+    }
+    return grad;
+}
+
 
 } // namespace hplearn

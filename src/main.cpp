@@ -75,6 +75,25 @@ void testOp() {
     cout << "MinusOp forward: " << minusOp->forward() << endl;
     cout << "MinusOp backward: " << minusOp->backward() << endl;
 
+    // Test MultipleOp
+    MultipleOp* multipleOp = new MultipleOp(firstOp, secondOp);
+
+    cout << "MultipleOp name: " << multipleOp->getName() << endl;
+    cout << "MultipleOp forward: " << multipleOp->forward() << endl;
+    cout << "MultipleOp backward: " << multipleOp->backward() << endl;
+
+    cout << "MultipleOp backward(first): " << multipleOp->backward(firstOp->getName()) << endl;
+    cout << "MultipleOp backward(second): " << multipleOp->backward(secondOp->getName()) << endl;
+
+    // Test DivideOp
+    DivideOp* divideOp = new DivideOp(firstOp, secondOp);
+
+    cout << "DivideOp name: " << divideOp->getName() << endl;
+    cout << "DivideOp forward: " << divideOp->forward() << endl;
+    cout << "DivideOp backward: " << divideOp->backward() << endl;
+
+    cout << "DivideOp backward(first): " << divideOp->backward(firstOp->getName()) << endl;
+    cout << "DivideOp backward(second): " << divideOp->backward(secondOp->getName()) << endl;
 
 }
 
