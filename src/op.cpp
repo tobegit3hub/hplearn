@@ -116,6 +116,10 @@ PowerOp::PowerOp(Op* inputOp, int power) : Op("PowerOp"), inputOp(inputOp), powe
 
 }
 
+PowerOp::PowerOp(double inputValue, int power) : Op("PowerOp"), power(power) {
+    this->inputOp = new ConstantOp(inputValue);
+}
+
 double PowerOp::forward() {
     double x = this->inputOp->forward();
     return pow(x, this->power);
@@ -144,6 +148,59 @@ SquareOp::SquareOp(Op* inputOp) : PowerOp(inputOp, 2) {
 
 }
 
+// AddOp
+AddOp::AddOp(Op* firstInputOp, Op* secondInputOp) : Op("AddOp"), firstInputOp(firstInputOp), secondInputOp(secondInputOp) {
+
+}
+
+AddOp::AddOp(Op* firstInputOp, double secondInputValue) : Op("AddOp"), firstInputOp(firstInputOp) {
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+AddOp::AddOp(double firstInputValue, Op* secondInputOp) : Op("AddOp"), secondInputOp(secondInputOp) {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+}
+
+AddOp::AddOp(double firstInputValue, double secondInputValue) : Op("AddOp") {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+double AddOp::forward() {
+    return this->firstInputOp->forward() + this->secondInputOp->forward();
+}
+
+double AddOp::backward(string partialDerivativeOpname) {
+    double grad = this->firstInputOp->backward(partialDerivativeOpname) + this->secondInputOp->backward(partialDerivativeOpname);
+    return grad;
+}
+
+// MinusOp
+MinusOp::MinusOp(Op* firstInputOp, Op* secondInputOp) : Op("MinusOp"), firstInputOp(firstInputOp), secondInputOp(secondInputOp) {
+
+}
+
+MinusOp::MinusOp(Op* firstInputOp, double secondInputValue) : Op("MinusOp"), firstInputOp(firstInputOp) {
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+MinusOp::MinusOp(double firstInputValue, Op* secondInputOp) : Op("MinusOp"), secondInputOp(secondInputOp) {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+}
+
+MinusOp::MinusOp(double firstInputValue, double secondInputValue) : Op("MinusOp") {
+    this->firstInputOp = new ConstantOp(firstInputValue);
+    this->secondInputOp = new ConstantOp(secondInputValue);
+}
+
+double MinusOp::forward() {
+    return this->firstInputOp->forward() - this->secondInputOp->forward();
+}
+
+double MinusOp::backward(string partialDerivativeOpname) {
+    double grad = this->firstInputOp->backward(partialDerivativeOpname) - this->secondInputOp->backward(partialDerivativeOpname);
+    return grad;
+}
 
 
 } // namespace hplearn

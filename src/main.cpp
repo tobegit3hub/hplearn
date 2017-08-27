@@ -16,7 +16,7 @@ void testOp() {
 
     cout << "ConstantOp name: " << constantOp->getName() << endl;
     cout << "ConstantOp forward: " << constantOp->forward() << endl;
-    cout << "ConstantOp backword: " << constantOp->backward() << endl;
+    cout << "ConstantOp backward: " << constantOp->backward() << endl;
 
     // Test PlaceholderOp
     PlaceholderOp* placeholderOp = new PlaceholderOp();
@@ -24,29 +24,58 @@ void testOp() {
 
     cout << "PlaceholderOp name: " << placeholderOp->getName() << endl;
     cout << "PlaceholderOp forward: " << placeholderOp->forward() << endl;
-    cout << "PlaceholderOp backword: " << placeholderOp->backward() << endl;
+    cout << "PlaceholderOp backward: " << placeholderOp->backward() << endl;
 
     // Test VariableOp
     VariableOp* variableOp = new VariableOp(10.5);
 
     cout << "VariableOp name: " << variableOp->getName() << endl;
     cout << "VariableOp forward: " << variableOp->forward() << endl;
-    cout << "VariableOp backword: " << variableOp->backward() << endl;
+    cout << "VariableOp backward: " << variableOp->backward() << endl;
 
     // Test PowerOp
     PowerOp* powerOp = new PowerOp(variableOp, 3);
 
     cout << "PowerOp name: " << powerOp->getName() << endl;
     cout << "PowerOp forward: " << powerOp->forward() << endl;
-    cout << "PowerOp backword: " << powerOp->backward() << endl;
+    cout << "PowerOp backward: " << powerOp->backward() << endl;
 
+    powerOp = new PowerOp(10, 3);
+
+    cout << "PowerOp name: " << powerOp->getName() << endl;
+    cout << "PowerOp forward: " << powerOp->forward() << endl;
+    cout << "PowerOp backward: " << powerOp->backward() << endl;
 
     // Test SquareOp
     SquareOp* squareOp = new SquareOp(variableOp);
 
     cout << "SquareOp name: " << squareOp->getName() << endl;
     cout << "SquareOp forward: " << squareOp->forward() << endl;
-    cout << "SquareOp backword: " << squareOp->backward() << endl;
+    cout << "SquareOp backward: " << squareOp->backward() << endl;
+
+    // Test AddOp
+    VariableOp* firstOp = new VariableOp(20.2);
+    VariableOp* secondOp = new VariableOp(10.1);
+    AddOp* addOp = new AddOp(firstOp, secondOp);
+
+    cout << "AddOp name: " << addOp->getName() << endl;
+    cout << "AddOp forward: " << addOp->forward() << endl;
+    cout << "AddOp backward: " << addOp->backward() << endl;
+
+    addOp = new AddOp(addOp, 100.0);
+
+    cout << "AddOp name: " << addOp->getName() << endl;
+    cout << "AddOp forward: " << addOp->forward() << endl;
+    cout << "AddOp backward: " << addOp->backward() << endl;
+
+    // Test MinusOp
+    MinusOp* minusOp = new MinusOp(firstOp, secondOp);
+
+    cout << "MinusOp name: " << minusOp->getName() << endl;
+    cout << "MinusOp forward: " << minusOp->forward() << endl;
+    cout << "MinusOp backward: " << minusOp->backward() << endl;
+
+
 }
 
 int main() {

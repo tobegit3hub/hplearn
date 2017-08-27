@@ -84,6 +84,7 @@ private:
 
 public:
     PowerOp(Op* inputOp, int power);
+    PowerOp(double inputValue, int power);
     double forward();
     double backward(string partialDerivativeOpname="");
 };
@@ -97,6 +98,39 @@ public:
 };
 
 
+/*
+ * The add operation;
+ */
+class AddOp : public Op {
+private:
+    Op* firstInputOp;
+    Op* secondInputOp;
+
+public:
+    AddOp(Op* firstInputOp, Op* secondInputOp);
+    AddOp(Op* firstInputOp, double secondInputValue);
+    AddOp(double firstInputValue, Op* secondInputOp);
+    AddOp(double firstInputValue, double secondInputValue);
+    double forward();
+    double backward(string partialDerivativeOpname="");
+};
+
+/*
+ * The add operation;
+ */
+class MinusOp : public Op {
+private:
+    Op* firstInputOp;
+    Op* secondInputOp;
+
+public:
+    MinusOp(Op* firstInputOp, Op* secondInputOp);
+    MinusOp(Op* firstInputOp, double secondInputValue);
+    MinusOp(double firstInputValue, Op* secondInputOp);
+    MinusOp(double firstInputValue, double secondInputValue);
+    double forward();
+    double backward(string partialDerivativeOpname="");
+};
 
 
 } // namespace hplearn
