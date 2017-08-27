@@ -18,6 +18,7 @@ limitations under the License.
 #define HPLEARN_SESSION_H
 
 #include <string>
+#include <map>
 
 #include "graph.h"
 
@@ -39,6 +40,7 @@ public:
     Graph *getGraph();
     void setGraph(Graph* graph);
     double run(string opName);
+    double run(string opName, map<string, double> opnameValueMap);
 };
 
 }// namespace hplearn

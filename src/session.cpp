@@ -43,9 +43,27 @@ void Session::setGraph(Graph *graph) {
 }
 
 double Session::run(string opName) {
-    // TODO: Support feed_dict parameter
+    map<string, Op*> nameOpMap = this->graph->getNameOpMap();
+    Op* op = nameOpMap[opName];
+    double result = op->forward();
+
+    return result;
+}
+
+double Session::run(string opName, map<string, double> feedDict) {
 
     map<string, Op*> nameOpMap = this->graph->getNameOpMap();
+
+    map<string, double>::iterator item;
+    for(item=feedDict.begin(); item!=feedDict.end(); ++item) {
+        string feedOpName = item->first;
+        double value = item->second;
+        Op* feedOp = nameOpMap[feedOpName];
+        if (PlaceholderOp* placeholderOp = dynamic_cast<PlaceholderOp*>(feedOp)) {
+            placeholderOp->setValue(value);
+        }
+    }
+
     Op* op = nameOpMap[opName];
     double result = op->forward();
 

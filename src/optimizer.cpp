@@ -19,9 +19,6 @@ limitations under the License.
 namespace hplearn {
 
 
-
-
-
 // Optimizer
 Optimizer::Optimizer() : name("Optimizer") {
 
