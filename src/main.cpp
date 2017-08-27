@@ -3,8 +3,15 @@
 //
 
 #include <iostream>
+#include <map>
+
+#include <glog/logging.h>
+#include <gflags/gflags.h>
 
 #include "op.h"
+#include "graph.h"
+#include "session.h"
+#include "optimizer.h"
 
 using namespace std;
 using namespace hplearn;
@@ -97,10 +104,34 @@ void testOp() {
 
 }
 
-int main() {
+void testGraph() {
+    // Test Graph
+    Graph* graph = new Graph();
+
+    ConstantOp* constantOp1 = new ConstantOp(1.0);
+    ConstantOp* constantOp2 = new ConstantOp(1.0);
+    AddOp* addOp = new AddOp(constantOp1, constantOp2);
+
+    graph->addToGraph(constantOp1);
+    graph->addToGraph(constantOp2);
+    graph->addToGraph(addOp);
+
+}
+
+int main(int argc,char* argv[]) {
     cout<<"Start main"<<endl;
 
+    //google::InitGoogleLogging(argv[0]);
+
+    //google::InitGoogleLogging((const char *)argv[0]);
+    //google::SetLogDestination(google::GLOG_INFO,"./mylog");
+    // LOG(INFO) << "This is a <Warn> log message...";
+    //google::ShutdownGoogleLogging();
+
+
+
     testOp();
+    testGraph();
 
     return 0;
 }

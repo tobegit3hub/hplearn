@@ -10,6 +10,7 @@ using namespace std;
 
 namespace hplearn {
 
+
 /*
  * The abstract operation.
  */
