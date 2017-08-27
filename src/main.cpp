@@ -137,22 +137,33 @@ void testGraphAndSession() {
 }
 
 void testOptimizer() {
-
     // Create Graph
     Graph* graph = new Graph();
 
-    ConstantOp* constantOp1 = new ConstantOp(1.0);
-    ConstantOp* constantOp2 = new ConstantOp(2.5);
-    AddOp* addOp = new AddOp(constantOp1, constantOp2);
+    VariableOp* variableOp1 = new VariableOp(10.0);
+    VariableOp* variableOp2 = new VariableOp(20.5);
+    AddOp* addOp = new AddOp(variableOp1, variableOp2);
+    Op* lossOp = addOp;
 
-    graph->addToGraph(constantOp1);
-    graph->addToGraph(constantOp2);
+    GradientDescentOptimizer* optimizer = new GradientDescentOptimizer(graph);
+    Op* trainOp = (OptimizerMinimizeOp*) optimizer->minimize(lossOp);
+
+    graph->addToGraph(variableOp1);
+    graph->addToGraph(variableOp2);
     graph->addToGraph(addOp);
+    graph->addToGraph(trainOp);
 
     // Create session
     Session* session = new Session(graph);
 
-    GradientDescentOptimizer* optimizer = new GradientDescentOptimizer(graph);
+    // Run training
+    session->run(trainOp->getName());
+    double loss = session->run(lossOp->getName());
+    cout << "Loss is " << to_string(loss) << endl;
+
+    session->run(trainOp->getName());
+    loss = session->run(lossOp->getName());
+    cout << "Loss is " << to_string(loss) << endl;
 
 }
 

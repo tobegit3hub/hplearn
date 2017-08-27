@@ -41,7 +41,7 @@ void Optimizer::setName(string name) {
 
 
 // OptimizerMinimizeOp
-OptimizerMinimizeOp::OptimizerMinimizeOp(Graph *graph, Optimizer *optimizer, Op *lossOp) : Op("DivideOp"), graph(graph), optimizer(optimizer), lossOp(lossOp) {
+OptimizerMinimizeOp::OptimizerMinimizeOp(Graph *graph, Optimizer *optimizer, Op *lossOp) : Op("OptimizerMinimizeOp"), graph(graph), optimizer(optimizer), lossOp(lossOp) {
 
 
 }
@@ -72,9 +72,10 @@ void OptimizerMinimizeOp::setLossOp(Op *lossOp) {
 
 double OptimizerMinimizeOp::forward() {
 
+    map<string, double> variablenameGradMap = this->optimizer->computeGradients(this->lossOp);
+    this->optimizer->applyGradients(variablenameGradMap);
 
-    //variablename_grad_map = self._optimizer.compute_gradients(self._loss)
-    //self._optimizer.apply_gradients(variablename_grad_map)
+    // TODO: Should return nothing
     return 0.0;
 }
 
@@ -110,18 +111,46 @@ void GradientDescentOptimizer::setLearningRate(double learningRate) {
     this->learningRate = learningRate;
 }
 
-
-void GradientDescentOptimizer::minimize() {
-
-}
-
-void GradientDescentOptimizer::computeGradients() {
+void* GradientDescentOptimizer::minimize(Op* lossOp) {
+    OptimizerMinimizeOp* optimizerMinimizeOp = new OptimizerMinimizeOp(this->graph, this, lossOp);
+    return optimizerMinimizeOp;
 
 }
 
+map<string, double> GradientDescentOptimizer::computeGradients(Op* lossOp) {
 
-void GradientDescentOptimizer::applyGradients() {
+    map<string, Op*> nameOpMap = this->graph->getTrainableNameOpMap();
 
+    map<string, double> variablenameGradMap;
+
+    map<string, Op*>::iterator item;
+    for(item=nameOpMap.begin(); item!=nameOpMap.end(); ++item) {
+        string opName = item->first;
+        // Op* op = item->second;
+        double grad = lossOp->backward(opName);
+        variablenameGradMap[opName] = grad;
+    }
+
+    return variablenameGradMap;
+
+}
+
+
+void GradientDescentOptimizer::applyGradients(map<string, double> variablenameGradMap) {
+
+    map<string, Op*> nameOpMap = this->graph->getTrainableNameOpMap();
+
+    map<string, Op*>::iterator item;
+    for(item=nameOpMap.begin(); item!=nameOpMap.end(); ++item) {
+        string opName = item->first;
+        // TODO: Type check before converting
+        VariableOp* variableOp = (VariableOp*) item->second;
+
+        double grad =  variablenameGradMap[opName];
+        double finalGrad = this->learningRate * grad;
+
+        variableOp->setValue(variableOp->getValue() - finalGrad);
+    }
 
 }
 
