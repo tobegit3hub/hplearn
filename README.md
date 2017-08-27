@@ -120,6 +120,16 @@ for (int i=0; i<epochNumber; ++i) {
          << to_string(weightValue) << ", bias: " << to_string(biasValue) << endl;
 ```
 
+## Performance
+
+Benchmark with [TensorFlow](https://github.com/tensorflow/tensorflow) while running 100000 epochs of [add operation](./benchmark/benchmark_add_operation.cpp), [multiple operation](./benchmark/benchmark_multiple_operation.cpp) and [linear regression](benchmark/benchmark_linear_regression.cpp). 
+
+![](./images/benchmark_add_operation.png)
+
+![](./images/benchmark_multiple_operation.png)
+
+![](./images/benchmark_linear_regression.png)
+
 ## Contribution
 
 The HPLearn project is mostly inspired by [TensorFlow](https://github.com/tensorflow/tensorflow) and [MiniFlow](https://github.com/tobegit3hub/miniflow).

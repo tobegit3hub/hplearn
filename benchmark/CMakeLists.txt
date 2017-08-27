@@ -19,7 +19,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES ../src/op.h ../src/op.cpp ../src/graph.h ../src/graph.cpp ../src/session.h ../src/session.cpp ../src/optimizer.h ../src/optimizer.cpp)
 
-add_executable(benchmark_liner_regression benchmark_liner_regression.cpp ${SOURCE_FILES})
+add_executable(benchmark_linear_regression benchmark_linear_regression.cpp ${SOURCE_FILES})
 
 add_executable(benchmark_add_operation benchmark_add_operation.cpp ${SOURCE_FILES})
 
