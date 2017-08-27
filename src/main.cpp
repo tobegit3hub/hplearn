@@ -221,7 +221,7 @@ void testOverridedOperator() {
 void testLinearRegression() {
     // Define train data
     double learningRate = 0.01;
-    int epochNumber = 50;
+    int epochNumber = 20;
     vector<double> trainFeatureList = {1.0, 2.0, 3.0, 4.0, 5.0};
     vector<double> trainLabelList = {10.0, 20.0, 30.0, 40.0, 50.0};
     int instanceNumber = trainFeatureList.size();
@@ -269,7 +269,8 @@ void testLinearRegression() {
         double lossValue = sess->run(lossOp->getName(), feedDict);
         double weightValue = sess->run(weights->getName());
         double biasValue = sess->run(bias->getName());
-        cout << "Epoch: " << to_string(i) << ", loss: " << to_string(lossValue) << ", weight: " << to_string(weightValue) << ", bias: " << to_string(biasValue) << endl;
+        cout << "Epoch: " << to_string(i) << ", loss: " << to_string(lossValue) << ", weight: "
+             << to_string(weightValue) << ", bias: " << to_string(biasValue) << endl;
     }
 
 }
