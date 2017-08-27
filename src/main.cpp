@@ -136,6 +136,26 @@ void testGraphAndSession() {
 
 }
 
+void testOptimizer() {
+
+    // Create Graph
+    Graph* graph = new Graph();
+
+    ConstantOp* constantOp1 = new ConstantOp(1.0);
+    ConstantOp* constantOp2 = new ConstantOp(2.5);
+    AddOp* addOp = new AddOp(constantOp1, constantOp2);
+
+    graph->addToGraph(constantOp1);
+    graph->addToGraph(constantOp2);
+    graph->addToGraph(addOp);
+
+    // Create session
+    Session* session = new Session(graph);
+
+    GradientDescentOptimizer* optimizer = new GradientDescentOptimizer(graph);
+
+}
+
 void testLrModel() {
 
 
@@ -148,6 +168,8 @@ int main(int argc,char* argv[]) {
     testOp();
 
     testGraphAndSession();
+
+    testOptimizer();
 
     testLrModel();
 

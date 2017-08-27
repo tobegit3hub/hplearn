@@ -19,4 +19,111 @@ limitations under the License.
 namespace hplearn {
 
 
+
+
+
+// Optimizer
+Optimizer::Optimizer() : name("Optimizer") {
+
+}
+
+Optimizer::Optimizer(string name) : name(name) {
+
+}
+
+string Optimizer::getName() {
+    return this->name;
+}
+
+void Optimizer::setName(string name) {
+    this->name = name;
+}
+
+
+// OptimizerMinimizeOp
+OptimizerMinimizeOp::OptimizerMinimizeOp(Graph *graph, Optimizer *optimizer, Op *lossOp) : Op("DivideOp"), graph(graph), optimizer(optimizer), lossOp(lossOp) {
+
+
+}
+
+Graph * OptimizerMinimizeOp::getGraph() {
+    return this->graph;
+}
+
+void OptimizerMinimizeOp::setGraph(Graph *graph) {
+    this->graph = graph;
+}
+
+Optimizer * OptimizerMinimizeOp::getOptimizer() {
+    return this->optimizer;
+}
+
+void OptimizerMinimizeOp::setOptimizer(Optimizer *optimizer) {
+    this->optimizer = optimizer;
+}
+
+Op* OptimizerMinimizeOp::getLossOp() {
+    return this->lossOp;
+}
+
+void OptimizerMinimizeOp::setLossOp(Op *lossOp) {
+    this->lossOp = lossOp;
+}
+
+double OptimizerMinimizeOp::forward() {
+
+
+    //variablename_grad_map = self._optimizer.compute_gradients(self._loss)
+    //self._optimizer.apply_gradients(variablename_grad_map)
+    return 0.0;
+}
+
+double OptimizerMinimizeOp::backward(string partialDerivativeOpname) {
+    // TODO: Unimplement and throw exception if needed
+    return 0.0;
+}
+
+
+// GradientDescentOptimizer
+GradientDescentOptimizer::GradientDescentOptimizer(Graph* graph) : Optimizer("GradientDescentOptimizer"), graph(graph), learningRate(0.01) {
+
+}
+
+GradientDescentOptimizer::GradientDescentOptimizer(Graph* graph, double learningRate): Optimizer("GradientDescentOptimizer"), graph(graph), learningRate(learningRate) {
+
+}
+
+Graph* GradientDescentOptimizer::getGraph() {
+    return this->graph;
+}
+
+
+void GradientDescentOptimizer::setGraph(Graph *graph) {
+    this->graph = graph;
+}
+
+double GradientDescentOptimizer::getLearningRate() {
+    return this->learningRate;
+}
+
+void GradientDescentOptimizer::setLearningRate(double learningRate) {
+    this->learningRate = learningRate;
+}
+
+
+void GradientDescentOptimizer::minimize() {
+
+}
+
+void GradientDescentOptimizer::computeGradients() {
+
+}
+
+
+void GradientDescentOptimizer::applyGradients() {
+
+
+}
+
+
 } // namespace hplearn

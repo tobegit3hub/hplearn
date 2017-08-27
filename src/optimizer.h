@@ -18,9 +18,82 @@ limitations under the License.
 #define HPLEARN_OPTIMIZER_H
 
 #include<string>
+
+#include "op.h"
+#include "graph.h"
+
 using namespace std;
 
 namespace hplearn {
+
+
+
+
+
+
+class Optimizer {
+protected:
+    string name;
+
+public:
+    Optimizer();
+    Optimizer(string name);
+
+    string getName();
+    void setName(string name);
+
+    virtual void minimize() = 0;
+    virtual void computeGradients() = 0;
+    virtual void applyGradients() = 0;
+};
+
+
+/**
+* The minimize operation for optimizer.
+*/
+class OptimizerMinimizeOp : public Op {
+private:
+    Graph* graph;
+    Optimizer* optimizer;
+    Op* lossOp;
+
+
+public:
+    OptimizerMinimizeOp(Graph* graph, Optimizer* optimizer, Op* lossOp);
+
+    Graph* getGraph();
+    void setGraph(Graph* graph);
+    Optimizer* getOptimizer();
+    void setOptimizer(Optimizer* optimizer);
+    Op* getLossOp();
+    void setLossOp(Op* lossOp);
+
+    double forward();
+    double backward(string partialDerivativeOpname="");
+
+};
+
+
+class GradientDescentOptimizer : public Optimizer {
+private:
+    Graph* graph;
+    double learningRate;
+
+
+public:
+    GradientDescentOptimizer(Graph* graph);
+    GradientDescentOptimizer(Graph* graph, double learningRate);
+
+    Graph* getGraph();
+    void setGraph(Graph* graph);
+    double getLearningRate();
+    void setLearningRate(double learningRate);
+
+    void minimize();
+    void computeGradients();
+    void applyGradients();
+};
+
 
 
 } // namespace hplearn

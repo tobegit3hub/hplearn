@@ -299,4 +299,6 @@ double DivideOp::backward(string partialDerivativeOpname) {
 }
 
 
+
+
 } // namespace hplearn

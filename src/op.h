@@ -18,6 +18,8 @@ limitations under the License.
 #define HPLEARN_OP_H
 
 #include<string>
+
+
 using namespace std;
 
 namespace hplearn {
@@ -182,6 +184,8 @@ public:
     double forward();
     double backward(string partialDerivativeOpname="");
 };
+
+
 
 
 
