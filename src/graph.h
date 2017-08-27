@@ -42,6 +42,8 @@ public:
     void addTrainableNameOpMap(string opName, Op* variableOp);
     string getUniqueName(string inputName);
     void addToGraph(Op* op);
+
+    // TODO: Add toString method
 };
 
 

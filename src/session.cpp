@@ -18,5 +18,39 @@ limitations under the License.
 
 namespace hplearn {
 
+Session::Session() {
+
+}
+
+Session::Session(Graph* graph) : graph(graph) {
+
+}
+
+string Session::getName() {
+    return this->name;
+}
+
+void Session::setName(string name) {
+    this->name = name;
+}
+
+Graph * Session::getGraph() {
+    return this->graph;
+}
+
+void Session::setGraph(Graph *graph) {
+    this->graph = graph;
+}
+
+double Session::run(string opName) {
+    // TODO: Support feed_dict parameter
+
+    map<string, Op*> nameOpMap = this->graph->getNameOpMap();
+    Op* op = nameOpMap[opName];
+    double result = op->forward();
+
+    return result;
+}
+
 
 } // namespace hplearn

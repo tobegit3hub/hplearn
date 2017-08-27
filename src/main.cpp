@@ -116,27 +116,40 @@ void testOp() {
 
 }
 
-void testGraph() {
-    // Test Graph
+void testGraphAndSession() {
+    // Create Graph
     Graph* graph = new Graph();
 
     ConstantOp* constantOp1 = new ConstantOp(1.0);
-    ConstantOp* constantOp2 = new ConstantOp(1.0);
+    ConstantOp* constantOp2 = new ConstantOp(2.5);
     AddOp* addOp = new AddOp(constantOp1, constantOp2);
 
     graph->addToGraph(constantOp1);
     graph->addToGraph(constantOp2);
     graph->addToGraph(addOp);
 
+    // Create session
+    Session* session = new Session(graph);
+
+    double result = session->run(addOp->getName());
+    cout << "Session run result: " << to_string(result) << endl;
 
 }
+
+void testLrModel() {
+
+
+}
+
 
 int main(int argc,char* argv[]) {
     cout<<"Start main"<<endl;
 
     testOp();
 
-    testGraph();
+    testGraphAndSession();
+
+    testLrModel();
 
     return 0;
 }

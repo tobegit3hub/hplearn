@@ -17,12 +17,30 @@ limitations under the License.
 #ifndef HPLEARN_SESSION_H
 #define HPLEARN_SESSION_H
 
-#include<string>
+#include <string>
+
+#include "graph.h"
+
 using namespace std;
 
 namespace hplearn {
 
 
-} // namespace hplearn
+class Session {
+private:
+    string name;
+    Graph *graph;
+
+public:
+    Session();
+    Session(Graph* graph);
+    string getName();
+    void setName(string name);
+    Graph *getGraph();
+    void setGraph(Graph* graph);
+    double run(string opName);
+};
+
+}// namespace hplearn
 
 #endif //HPLEARN_SESSION_H
