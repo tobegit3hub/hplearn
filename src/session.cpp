@@ -18,9 +18,6 @@ limitations under the License.
 
 namespace hplearn {
 
-Session::Session() {
-
-}
 
 Session::Session(Graph* graph) : graph(graph) {
 

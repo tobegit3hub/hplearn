@@ -33,7 +33,6 @@ private:
     Graph *graph;
 
 public:
-    Session();
     Session(Graph* graph);
     string getName();
     void setName(string name);

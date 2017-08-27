@@ -26,27 +26,23 @@ using namespace std;
 
 namespace hplearn {
 
+class Optimizer {
+protected:
+    string name;
 
+public:
+    Optimizer();
+    Optimizer(string name);
 
+    string getName();
+    void setName(string name);
 
-
-    class Optimizer {
-    protected:
-        string name;
-
-    public:
-        Optimizer();
-        Optimizer(string name);
-
-        string getName();
-        void setName(string name);
-
-        // TODO: Change to the class pointer after resolving circular dependencies
-        // virtual OptimizerMinimizeOp* minimize(Op* lossOp) = 0;
-        virtual void* minimize(Op* lossOp) = 0;
-        virtual map<string, double> computeGradients(Op* lossOp) = 0;
-        virtual void applyGradients(map<string, double> variablenameGradMap) = 0;
-    };
+    // TODO: Change to the class pointer after resolving circular dependencies
+    // virtual OptimizerMinimizeOp* minimize(Op* lossOp) = 0;
+    virtual void* minimize(Op* lossOp) = 0;
+    virtual map<string, double> computeGradients(Op* lossOp) = 0;
+    virtual void applyGradients(map<string, double> variablenameGradMap) = 0;
+};
 
 
 /**

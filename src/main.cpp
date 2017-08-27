@@ -16,6 +16,7 @@ limitations under the License.
 
 #include <iostream>
 #include <map>
+#include <vector>
 
 #include <glog/logging.h>
 #include <gflags/gflags.h>
@@ -208,7 +209,6 @@ void testOverridedOperator() {
     graph->addToGraph(multipleOp);
     graph->addToGraph(divideOp);
 
-
     // Create session
     Session* session = new Session(graph);
     cout << "Overrided + operator result is " << to_string(session->run(addOp->getName())) << endl;
@@ -218,42 +218,59 @@ void testOverridedOperator() {
 }
 
 
-void testLrModel() {
+void testLinearRegression() {
     // Define train data
     double learningRate = 0.01;
-    double trainFeatures[] = {1.0, 2.0, 3.0, 4.0, 5.0};
-    double trainLabels[] = {10.0, 20.0, 30.0, 40.0, 50.0};
+    int epochNumber = 50;
+    vector<double> trainFeatureList = {1.0, 2.0, 3.0, 4.0, 5.0};
+    vector<double> trainLabelList = {10.0, 20.0, 30.0, 40.0, 50.0};
+    int instanceNumber = trainFeatureList.size();
 
     // Create graph
+    Graph* graph = new Graph();
+
     VariableOp* weights = new VariableOp(0.0);
     VariableOp* bias = new VariableOp(0.0);
     PlaceholderOp* x = new PlaceholderOp();
     PlaceholderOp* y = new PlaceholderOp();
 
+    Op* multipleOp = *weights * *x;
+    Op* predictOp = *multipleOp + *bias;
+    Op* minusOp = *y - *predictOp;
+    SquareOp* lossOp = new SquareOp(minusOp);
+    GradientDescentOptimizer* optimizer = new GradientDescentOptimizer(graph, learningRate);
+    OptimizerMinimizeOp* trainOp = (OptimizerMinimizeOp*) optimizer->minimize(lossOp);
 
-    /*
-    predict = weights * x + bias
-    loss = tf.square(y - predict)
-    sgd_optimizer = tf.train.GradientDescentOptimizer(learning_rate)
-    train_op = sgd_optimizer.minimize(loss)
+    graph->addToGraph(weights);
+    graph->addToGraph(bias);
+    graph->addToGraph(x);
+    graph->addToGraph(y);
+    graph->addToGraph(multipleOp);
+    graph->addToGraph(predictOp);
+    graph->addToGraph(minusOp);
+    graph->addToGraph(lossOp);
+    graph->addToGraph(trainOp);
 
-    with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
+    // Create session
+    Session* sess = new Session(graph);
+    map<string, double> feedDict;
 
-    for epoch_index in range(epoch_number):
-    # Take one sample from train dataset
-        sample_number = len(train_features)
-        train_feature = train_features[epoch_index % sample_number]
-        train_label = train_labels[epoch_index % sample_number]
+    for (int i=0; i<epochNumber; ++i) {
+        // Get training data
+        double feature = trainFeatureList[i % instanceNumber];
+        double label = trainLabelList[i % instanceNumber];
 
-    # Update model variables and print loss
-        sess.run(train_op, feed_dict={x: train_feature, y: train_label})
-        loss_value = sess.run(loss, feed_dict={x: 1.0, y: 10.0})
+        // Start training
+        feedDict[x->getName()] = feature;
+        feedDict[y->getName()] = label;
+        sess->run(trainOp->getName(), feedDict);
 
-        if verbose:
-            print("Epoch: {}, loss: {}, weight: {}, bias: {}".format(
-                    epoch_index, loss_value, sess.run(weights), sess.run(bias)))
-    */
+        // Print loss and model
+        double lossValue = sess->run(lossOp->getName(), feedDict);
+        double weightValue = sess->run(weights->getName());
+        double biasValue = sess->run(bias->getName());
+        cout << "Epoch: " << to_string(i) << ", loss: " << to_string(lossValue) << ", weight: " << to_string(weightValue) << ", bias: " << to_string(biasValue) << endl;
+    }
 
 }
 
@@ -271,7 +288,7 @@ int main(int argc,char* argv[]) {
 
     testOverridedOperator();
 
-    testLrModel();
+    testLinearRegression();
 
     return 0;
 }
