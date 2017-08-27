@@ -11,12 +11,8 @@ using namespace hplearn;
 
 
 void testOp() {
-    //Op* op = new Op("AddOp");
-    //cout<<op->getName()<<endl;
-
     // Test ConstantOp
-    ConstantOp* constantOp = new ConstantOp();
-    constantOp->setValue(10.5);
+    ConstantOp* constantOp = new ConstantOp(10.5);
 
     cout << "ConstantOp name: " << constantOp->getName() << endl;
     cout << "ConstantOp forward: " << constantOp->forward() << endl;
@@ -31,20 +27,26 @@ void testOp() {
     cout << "PlaceholderOp backword: " << placeholderOp->backward() << endl;
 
     // Test VariableOp
-    VariableOp* variableOp = new VariableOp();
-    variableOp->setValue(10.5);
+    VariableOp* variableOp = new VariableOp(10.5);
 
     cout << "VariableOp name: " << variableOp->getName() << endl;
     cout << "VariableOp forward: " << variableOp->forward() << endl;
     cout << "VariableOp backword: " << variableOp->backward() << endl;
 
-
     // Test PowerOp
-    PowerOp* powerOp = new PowerOp(variableOp, 2);
+    PowerOp* powerOp = new PowerOp(variableOp, 3);
 
     cout << "PowerOp name: " << powerOp->getName() << endl;
     cout << "PowerOp forward: " << powerOp->forward() << endl;
     cout << "PowerOp backword: " << powerOp->backward() << endl;
+
+
+    // Test SquareOp
+    SquareOp* squareOp = new SquareOp(variableOp);
+
+    cout << "SquareOp name: " << squareOp->getName() << endl;
+    cout << "SquareOp forward: " << squareOp->forward() << endl;
+    cout << "SquareOp backword: " << squareOp->backward() << endl;
 }
 
 int main() {

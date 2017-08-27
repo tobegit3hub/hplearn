@@ -11,7 +11,7 @@ using namespace std;
 namespace hplearn {
 
 /*
- * The abstract operation;
+ * The abstract operation.
  */
 class Op {
 protected:
@@ -27,7 +27,7 @@ public:
 };
 
 /*
- * The constant operation;
+ * The constant operation.
  */
 class ConstantOp : public Op {
 private:
@@ -43,7 +43,7 @@ public:
 };
 
 /*
- * The placeholder operation;
+ * The placeholder operation.
  */
 class PlaceholderOp : public Op {
 private:
@@ -59,8 +59,8 @@ public:
 };
 
 /*
-* The variable operation;
-*/
+ * The variable operation.
+ */
 class VariableOp : public Op {
 private:
     double value;
@@ -75,19 +75,28 @@ public:
 };
 
 /*
-* The power operation;
-*/
+ * The power operation.
+ */
 class PowerOp : public Op {
 private:
     Op* inputOp;
     int power;
 
 public:
-    PowerOp();
     PowerOp(Op* inputOp, int power);
     double forward();
     double backward(string partialDerivativeOpname="");
 };
+
+/*
+ * The square operation;
+ */
+class SquareOp : public PowerOp {
+public:
+    SquareOp(Op* inputOp);
+};
+
+
 
 
 } // namespace hplearn

@@ -112,10 +112,6 @@ double VariableOp::backward(string partialDerivativeOpname) {
 }
 
 // PowerOp
-PowerOp::PowerOp() : Op("PowerOp") {
-
-}
-
 PowerOp::PowerOp(Op* inputOp, int power) : Op("PowerOp"), inputOp(inputOp), power(power) {
 
 }
@@ -141,6 +137,13 @@ double PowerOp::backward(string partialDerivativeOpname) {
 
     return grad;
 }
+
+
+// SquareOp
+SquareOp::SquareOp(Op* inputOp) : PowerOp(inputOp, 2) {
+
+}
+
 
 
 } // namespace hplearn
