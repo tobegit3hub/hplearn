@@ -16,7 +16,7 @@ void testOp() {
 
     // Test ConstantOp
     ConstantOp* constantOp = new ConstantOp();
-    constantOp->setValue(100.1);
+    constantOp->setValue(10.5);
 
     cout << "ConstantOp name: " << constantOp->getName() << endl;
     cout << "ConstantOp forward: " << constantOp->forward() << endl;
@@ -24,7 +24,7 @@ void testOp() {
 
     // Test PlaceholderOp
     PlaceholderOp* placeholderOp = new PlaceholderOp();
-    placeholderOp->setValue(100.1);
+    placeholderOp->setValue(10.5);
 
     cout << "PlaceholderOp name: " << placeholderOp->getName() << endl;
     cout << "PlaceholderOp forward: " << placeholderOp->forward() << endl;
@@ -32,11 +32,19 @@ void testOp() {
 
     // Test VariableOp
     VariableOp* variableOp = new VariableOp();
-    variableOp->setValue(100.1);
+    variableOp->setValue(10.5);
 
     cout << "VariableOp name: " << variableOp->getName() << endl;
     cout << "VariableOp forward: " << variableOp->forward() << endl;
     cout << "VariableOp backword: " << variableOp->backward() << endl;
+
+
+    // Test PowerOp
+    PowerOp* powerOp = new PowerOp(variableOp, 2);
+
+    cout << "PowerOp name: " << powerOp->getName() << endl;
+    cout << "PowerOp forward: " << powerOp->forward() << endl;
+    cout << "PowerOp backword: " << powerOp->backward() << endl;
 }
 
 int main() {

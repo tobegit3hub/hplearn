@@ -16,71 +16,77 @@ namespace hplearn {
 class Op {
 protected:
     string name;
-    double value;
 
 public:
     Op();
-
     Op(string name);
-
-    Op(string name, double value);
-
     string getName();
-
     void setName(string name);
-
-    double getValue();
-
-    void setValue(double value);
-
     virtual double forward() = 0;
-
-    virtual double backward() = 0;
+    virtual double backward(string partialDerivativeOpname="") = 0;
 };
 
 /*
  * The constant operation;
  */
 class ConstantOp : public Op {
+private:
+    double value;
 
 public:
     ConstantOp();
     ConstantOp(double value);
+    double getValue();
+    void setValue(double value);
     double forward();
-    double backward();
+    double backward(string partialDerivativeOpname="");
 };
 
 /*
  * The placeholder operation;
  */
 class PlaceholderOp : public Op {
+private:
+    double value;
+
 public:
     PlaceholderOp();
     PlaceholderOp(double value);
+    double getValue();
+    void setValue(double value);
     double forward();
-    double backward();
+    double backward(string partialDerivativeOpname="");
 };
 
 /*
 * The variable operation;
 */
 class VariableOp : public Op {
+private:
+    double value;
+
 public:
     VariableOp();
     VariableOp(double value);
+    double getValue();
+    void setValue(double value);
     double forward();
-    double backward();
+    double backward(string partialDerivativeOpname="");
 };
 
 /*
 * The power operation;
 */
 class PowerOp : public Op {
+private:
+    Op* inputOp;
+    int power;
+
 public:
     PowerOp();
-    PowerOp(double value);
+    PowerOp(Op* inputOp, int power);
     double forward();
-    double backward();
+    double backward(string partialDerivativeOpname="");
 };
 
 
