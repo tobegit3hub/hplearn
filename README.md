@@ -9,6 +9,7 @@ HPLearn is the high performance machine learning system in pure C++.
 - [x] Imperative and declarative computations
 - [x] Override +-*/ operations for graph building
 - [x] CMake integration for Linux/Mac/Windows
+- [x] Bazel integration for build and run
 - [x] Op/Graph/Session TensorFlow-like APIs
 - [ ] GPU integration with Nividia CUDA library
 
@@ -20,6 +21,12 @@ Build from scratch with `cmake`.
 cmake .
 
 make
+```
+
+Or compile code with `bazel`.
+
+```
+bazel build hplearn:main
 ```
 
 Or run directly with `docker`.
