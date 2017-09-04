@@ -17,8 +17,6 @@ limitations under the License.
 #include <string>
 #include <iostream>
 
-#include <glog/logging.h>
-
 #include "graph.h"
 
 namespace hplearn {

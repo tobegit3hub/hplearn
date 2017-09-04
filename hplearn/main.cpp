@@ -18,9 +18,6 @@ limitations under the License.
 #include <map>
 #include <vector>
 
-#include <glog/logging.h>
-#include <gflags/gflags.h>
-
 #include "op.h"
 #include "graph.h"
 #include "session.h"
