@@ -18,10 +18,10 @@ limitations under the License.
 #include <map>
 #include <vector>
 
-#include "../src/op.h"
-#include "../src/graph.h"
-#include "../src/session.h"
-#include "../src/optimizer.h"
+#include "../hplearn/op.h"
+#include "../hplearn/graph.h"
+#include "../hplearn/session.h"
+#include "../hplearn/optimizer.h"
 
 using namespace std;
 using namespace hplearn;

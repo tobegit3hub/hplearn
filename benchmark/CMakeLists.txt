@@ -17,7 +17,7 @@ project(hplearn)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES ../src/op.h ../src/op.cpp ../src/graph.h ../src/graph.cpp ../src/session.h ../src/session.cpp ../src/optimizer.h ../src/optimizer.cpp)
+set(SOURCE_FILES ../hplearn/op.h ../hplearn/op.cpp ../hplearn/graph.h ../hplearn/graph.cpp ../hplearn/session.h ../hplearn/session.cpp ../hplearn/optimizer.h ../hplearn/optimizer.cpp)
 
 add_executable(benchmark_linear_regression benchmark_linear_regression.cpp ${SOURCE_FILES})
 
